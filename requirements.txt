@@ -1,0 +1,10 @@
+# Website (also what Vercel installs)
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+
+# Windows desktop assistant only: skipped on Vercel's Linux build, where
+# PyAudioWPatch cannot install.
+SpeechRecognition>=3.14.0; sys_platform == "win32"
+PyAudioWPatch>=0.2.12.9; sys_platform == "win32"
+pyttsx3>=2.99; sys_platform == "win32"
+Pillow>=11.0.0; sys_platform == "win32"

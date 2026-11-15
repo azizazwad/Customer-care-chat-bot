@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0e0f16">
+  <meta name="description" content="Friendly, bilingual customer care from Mikey.">
+  <title>Mikey — Customer Care</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x2='1' y2='1'%3E%3Cstop stop-color='%239a6bff'/%3E%3Cstop offset='1' stop-color='%234f8cff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='9' fill='url(%23g)'/%3E%3Cpath fill='white' d='M16 5.5 18.1 12l6.4 2.1-6.4 2.1L16 22.6l-2.1-6.4-6.4-2.1 6.4-2.1z'/%3E%3C/svg%3E">
+  <script>
+    (function () {
+      // Night mode is the default until the visitor picks a theme with the toggle.
+      var theme = null;
+      try { theme = localStorage.getItem("mikey-theme-choice"); } catch (error) {}
+      document.documentElement.dataset.theme = theme === "light" ? "light" : "dark";
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Manrope:wght@600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/tokens.css">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/layout.css">
+  <link rel="stylesheet" href="/static/css/welcome.css">
+  <link rel="stylesheet" href="/static/css/chat.css">
+  <link rel="stylesheet" href="/static/css/composer.css">
+  <link rel="stylesheet" href="/static/css/effects.css">
+  <link rel="stylesheet" href="/static/css/responsive.css">
+</head>
+<body>
+  <svg class="icon-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-spark" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.5 14.1 9l6.4 2.2-6.4 2.1L12 19.8l-2.1-6.5-6.4-2.1L9.9 9 12 2.5Z"/><path fill="currentColor" stroke="none" d="m19 15.5.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9.9-2.6Z"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.4 2.6a2.1 2.1 0 1 1 3 3L12 15l-4 1 1-4Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+    <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7"/></symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2.5" fill="currentColor"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-retry" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+    <symbol id="i-package" viewBox="0 0 24 24"><path d="M16.5 9.4 7.5 4.2M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.7Z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2M15 18H9M19 18h2a1 1 0 0 0 1-1v-3.6a1 1 0 0 0-.2-.6l-3.5-4.4a1 1 0 0 0-.8-.4H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></symbol>
+    <symbol id="i-headset" viewBox="0 0 24 24"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.7 9a1 1 0 0 1-.6 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1.2 1.2 0 0 1 1.6 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1Z"/><path d="m9 12 2 2 4-4"/></symbol>
+  </svg>
+
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Chat options">
+      <a class="brand" href="/" aria-label="Mikey home">
+        <span class="brand-mark" aria-hidden="true"><svg class="icon"><use href="#i-spark"/></svg></span>
+        <span class="brand-name">mikey<span class="brand-dot">.</span><small>customer care</small></span>
+      </a>
+
+      <button class="new-chat-button ripple-host" id="new-chat" type="button">
+        <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg><span data-i18n="newChat">New conversation</span>
+      </button>
+
+      <nav class="sidebar-section" aria-labelledby="quick-help-label">
+        <p class="sidebar-label" id="quick-help-label" data-i18n="quickHelp">Quick help</p>
+        <div class="topic-list">
+          <button class="topic ripple-host" type="button" data-prompt-key="promptProduct"><svg class="icon" aria-hidden="true"><use href="#i-package"/></svg><span data-i18n="suggestionProduct">Product help</span></button>
+          <button class="topic ripple-host" type="button" data-prompt-key="promptOrder"><svg class="icon" aria-hidden="true"><use href="#i-truck"/></svg><span data-i18n="suggestionOrder">Order question</span></button>
+          <button class="topic ripple-host" type="button" data-prompt-key="promptHuman"><svg class="icon" aria-hidden="true"><use href="#i-headset"/></svg><span data-i18n="suggestionHuman">Talk to a person</span></button>
+        </div>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="privacy-card">
+          <span class="icon-badge" aria-hidden="true"><svg class="icon"><use href="#i-shield"/></svg></span>
+          <div><strong data-i18n="privacyTitle">Your privacy matters</strong><p data-i18n="privacyCopy">Please don't share passwords or payment details.</p></div>
+        </div>
+        <div class="status-line"><span class="status-dot"></span><span data-i18n="online">Support assistant online</span></div>
+      </div>
+    </aside>
+
+    <main class="main-panel" id="main-panel">
+      <div class="aurora" aria-hidden="true">
+        <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+      </div>
+      <div class="dot-grid" aria-hidden="true"></div>
+
+      <header class="topbar">
+        <div class="topbar-title">
+          <span class="topbar-avatar" aria-hidden="true"><svg class="icon"><use href="#i-spark"/></svg><span class="status-dot"></span></span>
+          <div class="topbar-text">
+            <strong id="business-name">Customer Care</strong>
+            <span data-i18n="headerSubtitle">AI support assistant · Online</span>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <div class="lang-switch" id="lang-switch" role="group" aria-label="Language" data-active="en">
+            <button class="lang-option" type="button" data-lang="en" aria-pressed="true"><span class="lang-long">English</span><span class="lang-short">EN</span></button>
+            <button class="lang-option" type="button" data-lang="bn" aria-pressed="false">বাংলা</button>
+          </div>
+          <button class="icon-button theme-toggle" id="theme-toggle" type="button" data-i18n-aria="themeToggle" aria-label="Toggle theme">
+            <svg class="icon icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+            <svg class="icon icon-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+          </button>
+          <button class="icon-button mobile-only" id="new-chat-mobile" type="button" data-i18n-aria="newChat" aria-label="New conversation">
+            <svg class="icon" aria-hidden="true"><use href="#i-pen"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="chat-stage" aria-label="Customer care chat">
+        <div class="scroller" id="scroller">
+          <div class="welcome" id="welcome">
+            <div class="hero-orb reveal" id="hero-orb" style="--i:0" aria-hidden="true">
+              <span class="orb-halo"></span>
+              <span class="orb-ring ring-dashed"></span>
+              <span class="orb-ring ring-orbit"><span class="orbit-dot"></span></span>
+              <span class="orb-float">
+                <span class="orb-face">
+                  <span class="orb-eye left"></span><span class="orb-eye right"></span>
+                  <span class="orb-smile"></span>
+                </span>
+              </span>
+              <span class="orb-spark s1">✦</span><span class="orb-spark s2">✦</span><span class="orb-spark s3">✧</span>
+            </div>
+            <div class="welcome-kicker reveal" style="--i:1"><span class="status-dot"></span><span data-i18n="welcomeKicker">Here for you</span></div>
+            <h1 class="reveal" style="--i:2" data-i18n-html="welcomeTitle">How can we <span class="gradient-text">help</span><br>you today?</h1>
+            <p class="welcome-description reveal" style="--i:3" data-i18n="welcomeCopy">Ask us anything. We’re here to make things easier.</p>
+            <div class="suggestions">
+              <button class="suggestion ripple-host reveal" style="--i:4" type="button" data-prompt-key="promptProduct">
+                <span class="suggestion-icon" aria-hidden="true"><svg class="icon"><use href="#i-package"/></svg></span>
+                <span class="suggestion-text"><strong data-i18n="suggestionProduct">Product help</strong><span data-i18n="suggestionProductCopy">Features, setup, and compatibility</span></span>
+                <svg class="icon suggestion-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
+              </button>
+              <button class="suggestion ripple-host reveal" style="--i:5" type="button" data-prompt-key="promptOrder">
+                <span class="suggestion-icon" aria-hidden="true"><svg class="icon"><use href="#i-truck"/></svg></span>
+                <span class="suggestion-text"><strong data-i18n="suggestionOrder">Order question</strong><span data-i18n="suggestionOrderCopy">Delivery, tracking, and returns</span></span>
+                <svg class="icon suggestion-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
+              </button>
+              <button class="suggestion ripple-host reveal" style="--i:6" type="button" data-prompt-key="promptHuman">
+                <span class="suggestion-icon" aria-hidden="true"><svg class="icon"><use href="#i-headset"/></svg></span>
+                <span class="suggestion-text"><strong data-i18n="suggestionHuman">Talk to a person</strong><span data-i18n="suggestionHumanCopy">Connect with our support team</span></span>
+                <svg class="icon suggestion-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="thread" id="messages" aria-label="Messages" hidden></div>
+        </div>
+        <button class="jump-button" id="jump-button" type="button" tabindex="-1">
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow-down"/></svg><span data-i18n="jumpToLatest">Latest</span>
+        </button>
+      </section>
+
+      <footer class="composer-area">
+        <div class="composer-wrap">
+          <form class="composer" id="chat-form">
+            <textarea id="message-input" rows="1" maxlength="2000" data-i18n-placeholder="inputPlaceholder" placeholder="Message Mikey…" aria-label="Message"></textarea>
+            <div class="composer-row">
+              <button class="tool-button" id="voice-button" type="button" data-i18n-aria="voiceAria" aria-label="Speak your message">
+                <svg class="icon" aria-hidden="true"><use href="#i-mic"/></svg><span class="voice-label" data-i18n="voice">Voice</span>
+              </button>
+              <span class="input-hint" data-i18n-html="inputHint"><kbd>Enter</kbd> to send · <kbd>Shift</kbd> + <kbd>Enter</kbd> for a new line</span>
+              <span class="char-count" id="char-count" aria-live="polite"></span>
+              <button class="send-button ripple-host" id="send-button" type="submit" data-i18n-aria="send" aria-label="Send message" disabled>
+                <svg class="icon icon-send" aria-hidden="true"><use href="#i-arrow-up"/></svg>
+                <svg class="icon icon-stop" aria-hidden="true"><use href="#i-stop"/></svg>
+              </button>
+            </div>
+          </form>
+          <p class="composer-caption" data-i18n="aiCaption">Mikey is an AI assistant and can make mistakes. Messages are sent to Groq to generate replies.</p>
+        </div>
+      </footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="sr-only" id="announcer" aria-live="polite"></div>
+  <script src="/static/vendor/marked.min.js" defer></script>
+  <script src="/static/vendor/purify.min.js" defer></script>
+  <script type="module" src="/static/js/main.js"></script>
+</body>
+</html>

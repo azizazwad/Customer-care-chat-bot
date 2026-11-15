@@ -1,0 +1,66 @@
+/* Design tokens: colors, fonts, easing, and the light and dark themes. */
+
+@property --angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+
+:root {
+  color-scheme: light;
+  --bg: #f6f6fa;
+  --sidebar: #f0f0f6;
+  --surface: #ffffff;
+  --surface-2: #f4f4f9;
+  --surface-3: #e9e9f2;
+  --border: #e4e4ee;
+  --border-strong: #d3d3e0;
+  --text: #171927;
+  --text-2: #3b3f52;
+  --muted: #6f7489;
+  --faint: #9ea2b4;
+  --accent: #6a4be4;
+  --accent-2: #9a6bff;
+  --accent-3: #4f8cff;
+  --accent-soft: #eeeaff;
+  --accent-ink: #5233cc;
+  --success: #1f9d68;
+  --danger: #d23f3f;
+  --danger-soft: #fdeded;
+  --code-bg: #f3f3f8;
+  --row-hover: #f8f8fc;
+  --grid-dot: rgb(40 40 80 / 9%);
+  --blob-1: rgb(122 92 255 / 22%);
+  --blob-2: rgb(79 140 255 / 17%);
+  --blob-3: rgb(236 120 200 / 13%);
+  --glow: rgb(106 75 228 / 32%);
+  --shadow-sm: 0 1px 2px rgb(23 25 60 / 6%);
+  --shadow-md: 0 8px 24px rgb(30 25 70 / 8%);
+  --shadow-lg: 0 22px 56px rgb(30 25 70 / 12%);
+  --font: "DM Sans", "Noto Sans Bengali", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Manrope", "Noto Sans Bengali", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --px: 0;
+  --py: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0e0f16; --sidebar: #12131c; --surface: #191a25; --surface-2: #20212e; --surface-3: #2a2b3b;
+    --border: #282a38; --border-strong: #373a4c; --text: #eeedf7; --text-2: #c8c7d8; --muted: #9292a8;
+    --faint: #6b6b82; --accent: #8b74ff; --accent-2: #b38cff; --accent-3: #5f9bff; --accent-soft: #252042;
+    --accent-ink: #b7a9ff; --success: #34c48b; --danger: #f07373; --danger-soft: #361d24; --code-bg: #12131b;
+    --row-hover: #1e1f2c; --grid-dot: rgb(255 255 255 / 6%); --blob-1: rgb(122 92 255 / 24%);
+    --blob-2: rgb(79 140 255 / 14%); --blob-3: rgb(236 120 200 / 10%); --glow: rgb(139 116 255 / 30%);
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 35%); --shadow-md: 0 8px 24px rgb(0 0 0 / 35%); --shadow-lg: 0 22px 56px rgb(0 0 0 / 50%);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e0f16; --sidebar: #12131c; --surface: #191a25; --surface-2: #20212e; --surface-3: #2a2b3b;
+  --border: #282a38; --border-strong: #373a4c; --text: #eeedf7; --text-2: #c8c7d8; --muted: #9292a8;
+  --faint: #6b6b82; --accent: #8b74ff; --accent-2: #b38cff; --accent-3: #5f9bff; --accent-soft: #252042;
+  --accent-ink: #b7a9ff; --success: #34c48b; --danger: #f07373; --danger-soft: #361d24; --code-bg: #12131b;
+  --row-hover: #1e1f2c; --grid-dot: rgb(255 255 255 / 6%); --blob-1: rgb(122 92 255 / 24%);
+  --blob-2: rgb(79 140 255 / 14%); --blob-3: rgb(236 120 200 / 10%); --glow: rgb(139 116 255 / 30%);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 35%); --shadow-md: 0 8px 24px rgb(0 0 0 / 35%); --shadow-lg: 0 22px 56px rgb(0 0 0 / 50%);
+}

@@ -1,0 +1,52 @@
+/* Message box, voice and send buttons. */
+
+.composer-area { position: relative; z-index: 2; padding: 6px 24px 16px; }
+.composer-wrap { width: min(100%, 752px); margin: 0 auto; }
+.composer {
+  position: relative; padding: 14px 12px 10px 18px; border: 1px solid var(--border); border-radius: 22px; background: var(--surface);
+  box-shadow: var(--shadow-lg); transition: border-color .25s, box-shadow .35s var(--ease-out);
+}
+.composer::before {
+  content: ""; position: absolute; inset: -1.5px; padding: 1.5px; border-radius: inherit; pointer-events: none; opacity: 0;
+  background: conic-gradient(from var(--angle), var(--accent), var(--accent-3), var(--accent-2), #f07bc5, var(--accent));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  transition: opacity .35s; animation: rotate-angle 5s linear infinite;
+}
+.composer:focus-within { border-color: transparent; box-shadow: var(--shadow-lg), 0 0 0 6px color-mix(in srgb, var(--accent) 9%, transparent); }
+.composer:focus-within::before { opacity: 1; }
+.composer textarea {
+  display: block; width: 100%; min-height: 26px; max-height: 200px; padding: 0; resize: none; border: 0; outline: 0;
+  background: transparent; color: var(--text); font-size: 15px; line-height: 1.6; scrollbar-width: thin;
+}
+.composer textarea::placeholder { color: var(--faint); }
+.composer-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.tool-button {
+  position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 7px 11px; border: 1px solid var(--border); border-radius: 11px;
+  background: var(--surface-2); color: var(--text-2); font-size: 13px; font-weight: 500; cursor: pointer;
+  transition: color .2s, border-color .2s, background .2s, transform .2s var(--ease-out);
+}
+.tool-button .icon { width: 16px; height: 16px; }
+.tool-button:hover { border-color: var(--border-strong); color: var(--accent); }
+.tool-button.listening { border-color: transparent; background: var(--danger); color: #fff; }
+.tool-button.listening::after { content: ""; position: absolute; inset: -1px; border: 2px solid var(--danger); border-radius: inherit; animation: ping-ring 1.3s var(--ease-out) infinite; }
+.tool-button.listening .icon { animation: pop 1s ease-in-out infinite alternate; }
+.input-hint { overflow: hidden; color: var(--faint); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.char-count { margin-left: auto; color: var(--faint); font-size: 12px; font-variant-numeric: tabular-nums; }
+.char-count.near-limit { color: var(--danger); }
+.send-button {
+  position: relative; display: grid; width: 40px; height: 40px; flex: 0 0 40px; margin-left: auto; place-items: center; overflow: hidden;
+  border: 0; border-radius: 13px; background: linear-gradient(135deg, var(--accent-2), var(--accent) 60%, var(--accent-3)); color: #fff;
+  box-shadow: 0 8px 20px var(--glow); cursor: pointer;
+  transition: transform .3s var(--ease-spring), box-shadow .3s, opacity .25s, filter .25s, background .3s;
+}
+.char-count:not(:empty) + .send-button { margin-left: 0; }
+.send-button:hover:not(:disabled) { transform: translateY(-2px) scale(1.05); box-shadow: 0 12px 26px var(--glow); }
+.send-button:active:not(:disabled) { transform: scale(.92); }
+.send-button:disabled { box-shadow: none; cursor: not-allowed; filter: grayscale(.5); opacity: .38; }
+.send-button .icon { position: absolute; width: 20px; height: 20px; transition: transform .45s var(--ease-spring), opacity .25s; }
+.send-button .icon-stop { opacity: 0; transform: scale(.3) rotate(-90deg); }
+.send-button.is-stop { background: var(--text); color: var(--bg); box-shadow: 0 0 0 4px color-mix(in srgb, var(--text) 10%, transparent); }
+.send-button.is-stop .icon-send { opacity: 0; transform: translateY(-16px); }
+.send-button.is-stop .icon-stop { opacity: 1; transform: none; }
+.composer-caption { margin: 10px 0 0; color: var(--faint); font-size: 12px; text-align: center; }

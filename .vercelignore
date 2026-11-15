@@ -1,0 +1,13 @@
+# Secrets: set GROQ_API_KEY and friends in Vercel's Environment Variables instead.
+.env
+.env.*
+
+# Local Python environments and caches.
+venv/
+.venv*/
+__pycache__/
+*.py[cod]
+
+# The Windows desktop assistant does not run on Vercel.
+mikey/desktop/
+run.bat
