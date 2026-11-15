@@ -47,6 +47,28 @@ Open **http://127.0.0.1:8000** in your browser. When `.venv` is already set up, 
 uvicorn main:app --reload
 ```
 
+### Git Bash on Windows
+
+In Git Bash, activate the Windows virtual environment with the slash-separated path, then run Uvicorn through Python:
+
+```bash
+py -3 -m venv .venv
+source .venv/Scripts/activate
+python -m pip install -r requirements.txt
+python -m uvicorn main:app --reload
+```
+
+If you use WSL or Linux instead of Git Bash, create a Linux virtual environment and use its `bin` directory:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m uvicorn main:app --reload
+```
+
+`.venv` is a directory, not a command. `run.bat` is Windows-only and starts the desktop assistant; use Uvicorn above to run the website.
+
 The reload server is for local development only.
 
 ## Configure customer care
@@ -69,7 +91,7 @@ Groq requests send their own `User-Agent`, because Groq's Cloudflare protection 
 
 ## Deploy to Vercel
 
-Vercel runs the website as a Python function: it loads `app` from `main.py`, installs `requirements.txt`, and serves `/static` from its CDN. The desktop assistant is not deployed (see `.vercelignore`).
+Vercel detects the FastAPI `app` in `main.py`, installs `requirements.txt`, and serves the website, including `/static` assets, through the Python app. The desktop assistant is not deployed (see `.vercelignore`).
 
 1. Push the project to GitHub (`.env` and `venv/` are git-ignored), then import the repository at [vercel.com/new](https://vercel.com/new). Or run `vercel deploy` from the project folder with the [Vercel CLI](https://vercel.com/docs/cli).
 2. In the Vercel project, open **Settings → Environment Variables** and add `GROQ_API_KEY`, plus `BUSINESS_NAME` and `SUPPORT_CONTEXT` if you use them.

@@ -63,8 +63,11 @@ class MikeyApp:
         ))
         self.root.protocol("WM_DELETE_WINDOW", self.close)
 
-    def _text(self, english: str, bangla: str | None = None) -> str:
-        return (bangla or english) if self.language.get() == "বাংলা" else english
+    def _text(
+        self, english: str, bangla: str | None = None, language: str | None = None
+    ) -> str:
+        selected_language = self.language.get() if language is None else language
+        return (bangla or english) if selected_language in {"বাংলা", "bn"} else english
 
     def _build(self):
         top = tk.Frame(self.root, bg=BG)
@@ -222,8 +225,9 @@ class MikeyApp:
             return
         self.status.set("Analyzing screen…")
         prompt = "Describe the visible screen briefly and answer in Bengali." if self.language.get() == "বাংলা" else "Describe the visible screen briefly and point out the main content."
+        language = "bn" if self.language.get() == "বাংলা" else "en"
         threading.Thread(
-            target=self._groq_request, args=(prompt, data, []), daemon=True
+            target=self._groq_request, args=(prompt, data, [], language), daemon=True
         ).start()
 
     def submit(self):
@@ -276,9 +280,10 @@ class MikeyApp:
             return
         self.status.set(self._text("Thinking…", "ভাবছি…"))
         self.history.append({"role": "user", "content": prompt})
+        language = "bn" if self.language.get() == "বাংলা" else "en"
         threading.Thread(
             target=self._groq_request,
-            args=(prompt, None, self.history[-20:].copy()),
+            args=(prompt, None, self.history[-20:].copy(), language),
             daemon=True,
         ).start()
 
@@ -287,6 +292,7 @@ class MikeyApp:
         prompt: str,
         image_data: str | None,
         history: list[dict[str, object]],
+        language: str,
     ):
         try:
             chat_history = [
@@ -297,19 +303,22 @@ class MikeyApp:
             answer = request_groq_reply(
                 prompt,
                 chat_history,
-                "bn" if self.language.get() == "বাংলা" else "en",
+                language,
                 image_data,
             )
-            if not image_data:
-                self.history.append({"role": "assistant", "content": answer})
-            self._ui(self._message, "Mikey", answer)
-            self._say(answer[:900])
+            self._ui(self._show_groq_reply, answer, not image_data, language)
         except urllib.error.HTTPError as exc:
             self._ui(self._message, "Mikey", f"Groq request failed ({exc.code}).")
         except Exception as exc:
             self._ui(self._message, "Mikey", f"Could not complete the Groq request: {exc}")
         finally:
             self._ui(self.status.set, "Ready")
+
+    def _show_groq_reply(self, answer: str, add_to_history: bool, language: str):
+        if add_to_history:
+            self.history.append({"role": "assistant", "content": answer})
+        self._message("Mikey", answer)
+        self.speaker.say(answer[:900], bangla=language == "bn")
 
     def toggle_voice(self):
         if self._listener and self._listener.is_alive():
@@ -320,14 +329,19 @@ class MikeyApp:
             self._message("Mikey", "Voice input is unavailable. Install the requirements and check your microphone.")
             return
         self._listen_stop.clear()
+        language = "bn" if self.language.get() == "বাংলা" else "en"
         self.status.set(self._text("Listening…", "শুনছি…"))
-        self._listener = threading.Thread(target=self._listen_loop, daemon=True)
+        self._listener = threading.Thread(
+            target=self._listen_loop, args=(language,), daemon=True
+        )
         self._listener.start()
 
-    def _listen_loop(self):
+    def _listen_loop(self, language: str):
         try:
             with sr.Microphone() as source:
-                self._ui(self._message, "Mikey", self._text("Listening. Say a command.", "বলুন, আমি শুনছি।"))
+                self._ui(self._message, "Mikey", self._text(
+                    "Listening. Say a command.", "বলুন, আমি শুনছি।", language
+                ))
                 self.recognizer.adjust_for_ambient_noise(source, duration=0.4)
                 while not self._listen_stop.is_set() and not self.closing:
                     try:
@@ -335,11 +349,15 @@ class MikeyApp:
                     except sr.WaitTimeoutError:
                         continue
                     try:
-                        phrase = self.recognizer.recognize_google(audio, language=LANGUAGES[self.language.get()]["speech"])
+                        phrase = self.recognizer.recognize_google(
+                            audio, language="bn-BD" if language == "bn" else "en-US"
+                        )
                         self._ui(self._message, "You", phrase)
                         self.root.after(0, lambda p=phrase: self.handle_command(p))
                     except sr.UnknownValueError:
-                        self._ui(self._message, "Mikey", self._text("Sorry, I did not catch that.", "দুঃখিত, বুঝতে পারিনি।"))
+                        self._ui(self._message, "Mikey", self._text(
+                            "Sorry, I did not catch that.", "দুঃখিত, বুঝতে পারিনি।", language
+                        ))
                     except sr.RequestError as exc:
                         self._ui(self._message, "Mikey", f"Speech service error: {exc}")
                         break

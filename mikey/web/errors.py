@@ -16,6 +16,20 @@ from ..groq_client import groq_http_error_detail
 logger = logging.getLogger(__name__)
 
 
+def _timeout_error() -> HTTPException:
+    logger.warning(
+        "Groq request timed out after %s seconds",
+        GROQ_REQUEST_TIMEOUT_SECONDS,
+    )
+    return HTTPException(
+        status_code=504,
+        detail=(
+            "Groq took too long to respond. Check your internet connection and try again. "
+            f"The request timeout is {GROQ_REQUEST_TIMEOUT_SECONDS} seconds."
+        ),
+    )
+
+
 @contextmanager
 def groq_errors_as_http() -> Iterator[None]:
     """Translate Groq request failures into safe HTTP errors for the web client."""
@@ -33,18 +47,16 @@ def groq_errors_as_http() -> Iterator[None]:
             status_code=502, detail=detail
         ) from exc
     except TimeoutError:
-        logger.warning(
-            "Groq request timed out after %s seconds",
-            GROQ_REQUEST_TIMEOUT_SECONDS,
-        )
+        raise _timeout_error() from None
+    except urllib.error.URLError as exc:
+        if isinstance(exc.reason, TimeoutError):
+            raise _timeout_error() from None
+        logger.exception("Could not reach Groq API")
         raise HTTPException(
-            status_code=504,
-            detail=(
-                "Groq took too long to respond. Check your internet connection and try again. "
-                f"The request timeout is {GROQ_REQUEST_TIMEOUT_SECONDS} seconds."
-            ),
+            status_code=502,
+            detail="Could not reach the support service. Check your internet connection and try again.",
         ) from None
-    except (urllib.error.URLError, ConnectionError):
+    except ConnectionError:
         logger.exception("Could not reach Groq API")
         raise HTTPException(
             status_code=502,

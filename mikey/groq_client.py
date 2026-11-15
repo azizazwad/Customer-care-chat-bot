@@ -37,6 +37,8 @@ def groq_http_error_detail(exc: urllib.error.HTTPError) -> str:
         error_data = json.loads(error_body)
     except json.JSONDecodeError:
         error_data = {}
+    if not isinstance(error_data, dict):
+        error_data = {}
 
     error_name = str(error_data.get("error_name", "")).casefold()
     cloudflare_block = (
@@ -143,10 +145,26 @@ def iter_groq_stream(response: http.client.HTTPResponse) -> Iterator[tuple[str, 
         if data == "[DONE]":
             return
         chunk = json.loads(data)
+        if not isinstance(chunk, dict):
+            raise ValueError("Groq returned an invalid stream event.")
         if "error" in chunk:
             raise ValueError(f"Groq stream error: {chunk['error']}")
-        for choice in chunk.get("choices", []):
-            yield choice.get("delta", {}).get("content") or "", choice.get("finish_reason")
+        choices = chunk.get("choices", [])
+        if not isinstance(choices, list):
+            raise ValueError("Groq returned an invalid stream event.")
+        for choice in choices:
+            if not isinstance(choice, dict):
+                raise ValueError("Groq returned an invalid stream event.")
+            delta = choice.get("delta", {})
+            if not isinstance(delta, dict):
+                raise ValueError("Groq returned an invalid stream event.")
+            content = delta.get("content") or ""
+            if not isinstance(content, str):
+                raise ValueError("Groq returned an invalid stream event.")
+            finish_reason = choice.get("finish_reason")
+            if finish_reason is not None and not isinstance(finish_reason, str):
+                raise ValueError("Groq returned an invalid stream event.")
+            yield content, finish_reason
 
 
 def request_groq_reply(
@@ -159,8 +177,16 @@ def request_groq_reply(
     request = build_groq_request(prompt, history, language, image_data)
     with open_groq_response(request) as response:
         result = json.loads(response.read().decode("utf-8"))
+    if not isinstance(result, dict):
+        raise ValueError("Groq returned an invalid response.")
     choices = result.get("choices", [])
-    if not choices or not isinstance(choices[0].get("message", {}).get("content"), str):
+    if (
+        not isinstance(choices, list)
+        or not choices
+        or not isinstance(choices[0], dict)
+        or not isinstance(choices[0].get("message"), dict)
+        or not isinstance(choices[0]["message"].get("content"), str)
+    ):
         raise ValueError("Groq returned an empty response.")
     answer = choices[0]["message"]["content"].strip()
     if not answer:

@@ -33,7 +33,7 @@ def create_app() -> FastAPI:
     def home() -> FileResponse:
         return FileResponse(STATIC_DIR / "index.html", headers={"Cache-Control": "no-cache"})
 
-    # On Vercel, a plain StaticFiles mount is promoted to the CDN at build time.
+    # Serve assets from the same /static route locally and on Vercel.
     static_files = StaticFiles if os.getenv("VERCEL") else RevalidatedStaticFiles
     app.mount("/static", static_files(directory=STATIC_DIR), name="static")
     return app
